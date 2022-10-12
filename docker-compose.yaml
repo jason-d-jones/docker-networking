@@ -1,0 +1,33 @@
+#Direct the main healthcheck to port 8000
+#Direct the face-bokeh to port 8001
+#Direct the face-emotion to port 8002
+version: "3.9"
+services:
+    main:
+        build: .
+        ports:
+          - 8000:8000
+        networks:
+          - jjbridge
+
+    face-bokeh-service-container:
+        build: ./face-bokeh
+        depends_on:
+           - "main"
+        ports:
+          - "8001:8000"
+        networks:
+          - jjbridge
+
+    face-emotion-service-container:
+        build: ./face-emotion
+        depends_on:
+          - "main"
+        ports:
+          - "8002:8000"
+        networks:
+          - jjbridge
+
+networks:
+    jjbridge:
+      driver: bridge
